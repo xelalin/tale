@@ -14,7 +14,7 @@ author:
   email:        linminghsien11@gmail.com
 
 # Build settings
-# markdown:       kramdown
+markdown:       kramdown
 include:
   - _pages
 
