@@ -1,7 +1,7 @@
 # Site settings
 title:          Alex
 description:    "This is a blob for FPGA Design Methodology"
-baseurl:        "/tale"
+baseurl:        ""
 url:            "https://xelalin.github.io"
 
 # Google Analytics
