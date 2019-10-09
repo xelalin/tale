@@ -1,17 +1,17 @@
 # Site settings
-title:          Tale
-description:    "Minimal Jekyll theme for storytellers"
+title:          Alex
+description:    "This is a blob for FPGA Design Methodology"
 baseurl:        "/tale"
-url:            "https://chesterhow.github.io"
+url:            "https://xelalin.github.io"
 
 # Google Analytics
 google_analytics: UA—XXXXXXXX-X
 
 # Author
 author:
-  name:         Chester How
-  url:          https://chester.how
-  email:        chesterhow@gmail.com
+  name:         Alex Lin
+  url:          https://xelalin.github.io
+  email:        linminghsien11@gmail.com
 
 # Build settings
 # markdown:       kramdown
