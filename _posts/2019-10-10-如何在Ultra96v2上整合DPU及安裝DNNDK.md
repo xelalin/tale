@@ -280,8 +280,11 @@ DTG Settings -> MACHINE_NAME = zcu100-revc
 ```
 
 **注意:** Ultra96原來叫名為zcu100.
+
 **Tip:** 使用倒退鍵刪除預設文字, 然後再加入**zcu100-revc**.
+
 這樣.系統就會使用Ultra96指定的device-tree檔案.
+
 ![DTG Settings](/assets/posts/2019-10-10/DTG_settings.png "DTG Settings")
 
 4. 跳出及儲存.這個步驟會需要一點時間建立.
