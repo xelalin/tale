@@ -12,21 +12,21 @@ author: Alex Lin
 
 ### 軟體工具　
 
-. Vivado&reg; Design suite 2019.1
-. 以安裝好Ultra96 v2的Board files [安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf)
-. Xilinx SDK 2019.1
-. Petalinux 2019.1
+- Vivado&reg; Design suite 2019.1
+- 以安裝好Ultra96 v2的Board files [安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf)
+- Xilinx SDK 2019.1
+- Petalinux 2019.1
 
 ### 硬體工具　
 
-. Ultra96 v2 board
-. 12V@4A 電源供應器
-. MicroUSB to USB-A cable
-. AES-ACC-USB-JTAG board
-. SD card(FAT32格式)
-. DisplayPort 螢幕(選項)
-. Mini-DisplayPort to DisplayPort cable(選項)
-. USB Webcam(選項)
+- Ultra96 v2 board
+- 12V@4A 電源供應器
+- MicroUSB to USB-A cable
+- AES-ACC-USB-JTAG board
+- SD card(FAT32格式)
+- DisplayPort 螢幕(選項)
+- Mini-DisplayPort to DisplayPort cable(選項)
+- USB Webcam(選項)
 
 首先從我的[Github](https://github.com/xelalin/Ultra96v2-DPU)下載本地，如下所示
 
@@ -37,12 +37,12 @@ git clone https://github.com/xelalin/Ultra96v2-DPU.git
 ![figure](/assets/posts/2019-10-10/Ultra96v2_DPU.png)
 
 目錄說明：
-. files: petalinux/Yocto recipes, and source code for SDK, etc. 
-. hsi: 存放Vivado Design Suite export出的HDF檔案，給Petalinux使用
-. prebuilts: 存放pre-build的`.hdf`，`BOOT.BIN`，`image.ub`以及application的`.elf`
-. sdk_workspace: 空目錄用來來指定SDK的workspace
-. vivado: Vivado Design suite工作目錄，內含`u96_dpuv2.0_2018.2.tcl`用來產生Vivado Block Design
-. sdcard: 用來存放SD Image,但因超過Github的限制，所以是空的
+- files: petalinux/Yocto recipes, and source code for SDK, etc. 
+- hsi: 存放Vivado Design Suite export出的HDF檔案，給Petalinux使用
+- prebuilts: 存放pre-build的`.hdf`，`BOOT.BIN`，`image.ub`以及application的`.elf`
+- sdk_workspace: 空目錄用來來指定SDK的workspace
+- vivado: Vivado Design suite工作目錄，內含`u96_dpuv2.0_2018.2.tcl`用來產生Vivado Block Design
+- sdcard: 用來存放SD Image,但因超過Github的限制，所以是空的
 
 另外從Xilinx官網下載DPU TRD並且解壓縮，如下
 
@@ -84,10 +84,10 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 ![Design Flow](/assets/posts/2019-10-10/design_flow.png "Design Flow")
 
 從上圖得知，完成佈署一個深度網路神經系統包含以下四個開發步驟：
-. Vivado Design Suite: 透過Vivado IPI整合DPU IP到FPGA上
-. PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及ulitize 
-. Xilinx SDK: 編譯初一個Linux環境的可執行檔.elf
-. Xilinx DNNDK: 將caffe或是Tensorflow的模型，編譯成DPU的可執行檔.elf
+- Vivado Design Suite: 透過Vivado IPI整合DPU IP到FPGA上
+- PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及ulitize 
+- Xilinx SDK: 編譯初一個Linux環境的可執行檔.elf
+- Xilinx DNNDK: 將caffe或是Tensorflow的模型，編譯成DPU的可執行檔.elf
 
 ### Vivado Design Suite的步驟
 1. 建立一個Ultra96 v2 board的new project
@@ -136,7 +136,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
      - Select **Ultra96v2 Evaluation Platform**
 
-      **Note:** 如在Boards tab中選不到**Ultra96v2 Evaluation Platform**，那麼請先參考[Installing Board Definition for Ultra96v2]（https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf）先將Board files安裝好
+      **注意:** 如在Boards tab中選不到**Ultra96v2 Evaluation Platform**，那麼請先參考[Installing Board Definition for Ultra96v2](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf）先將Board files安裝好
 ![Board Files](/assets/posts/2019-10-10/u96_board_files.png "Board Files")
 
 3. Click **Finish**.
