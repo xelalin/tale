@@ -84,7 +84,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
 從上圖得知，完成佈署一個深度網路神經系統包含以下四個開發步驟：
 - Vivado Design Suite: 透過Vivado IPI整合DPU IP到FPGA上
-- PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及ulitize
+- PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及utilities
 - Xilinx DNNDK: 將caffe或是Tensorflow的模型，編譯成DPU的可執行檔.elf 
 - Xilinx SDK: 編譯出一個Linux環境的可執行檔.elf
 
@@ -316,7 +316,7 @@ petalinux-config -c rootfs
 
    - libs->libmali-xlnx->libmali-xlnx
 
-**Modules ->**
+   **Modules ->**
 
       - dpu
 
