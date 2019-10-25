@@ -142,11 +142,11 @@ vivado
 
 ###　Step 2: 加入DPU IP repository
 
-1. Click **IP Catalog** in the Project Manager.
+1. 在Project Manager點擊 **IP Catalog**
 
-2. Right-click **Vivado Repository** and select **Add Repository**.
+2.在**Vivado Repository**典籍滑鼠右鍵然後選擇**Add Repository**.
 
-3. Select **<PROJ ROOT>/ip_repo**
+3. 瀏覽目錄點選到 **<PROJ ROOT>/ip_repo**
 
 ![IP Catalog](/assets/posts/2019-10-10/dpu_ip_repos_1.png "IP Catalog")
 
