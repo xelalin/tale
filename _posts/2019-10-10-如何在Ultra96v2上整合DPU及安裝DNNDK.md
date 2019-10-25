@@ -456,17 +456,11 @@ xsdk
 按照以下步驟，import source files和model .elfs檔案:
 
 1. 點擊主選單 **File** 然後 **Import** -> **General** -> **Filesystem**.
-
 2. 瀏覽至`<PROJ ROOT>/files/resnet50`.
-
 3. 點擊 **OK**.
-
 4. 選擇 **main.cc**
-
 5. 確定`Into Folder`已經設為 **resnet50/src**.
-
 6. 點擊 **Finish**, 以及允許覆寫`main.cc`.
-
 7. 依同樣的步驟 import DPU的 model `.elf`, `dpu_resnet50_0.elf`
 
   **Note:** 這個models是事先使用使用DNNDK編譯好的,並放在`<PROJ ROOT>/files/resnet50/B1152_1.4.0`,你可以直接使用.
