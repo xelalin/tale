@@ -119,7 +119,9 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
 
 ## 在Vivado Design suite上建立一個硬體平台
+
 ###　Step 1: 在Vivado&reg; Design Suite建立一個新的Project
+
 1. 呼叫Vivado
 
   ```
@@ -136,12 +138,14 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
      - Select **Ultra96v2 Evaluation Platform**
 
-      **注意:** 如在Boards tab中選不到**Ultra96v2 Evaluation Platform**，那麼請先參考[Installing Board Definition for Ultra96v2](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf）先將Board files安裝好
+      **注意:** 如在Boards tab中選不到**Ultra96v2 Evaluation Platform**，那麼請先參考[Installing Board Definition for Ultra96v2](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf) 先將Board files安裝好
+      
 ![Board Files](/assets/posts/2019-10-10/u96_board_files.png "Board Files")
 
 3. Click **Finish**.
 
 ###　Step 2: 加入DPU IP repository
+
 1. Click **IP Catalog** in the Project Manager.
 
 2. Right-click **Vivado Repository** and select **Add Repository**.
@@ -151,6 +155,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 ![IP Catalog](/assets/posts/2019-10-10/dpu_ip_repos_1.png "IP Catalog")
 
 ### Step 3: 建立Block Design
+
 1. 打開TCL Console tab,確認工作目錄為`<PROJ ROOT>/vivado`輸入以下命令
 
      ```
@@ -167,6 +172,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 ![Validate Design](/assets/posts/2019-10-10/validate_design.png "Validate Design")
 
 ### Step 4: 複製 pre-built `.hdf` 到 `hsi`目錄下
+
 為了節省時間，我們可以跳過產生bitstream的步驟，手動將pre-built的.`.hdf`文件導出到hsi的目錄中。 要使用pre-built的選項，請執行以下命令將pre-bulit`.hdf`複製到hsi中：
 
 ```
@@ -181,6 +187,7 @@ cp prebuilts/design_1_wrapper.hdf hsi
 2. 接受預設選項
 
 ### Step 5: Export Hardward
+
   當Bitstream成功的生成後，請執行以下步驟來export `.hdf`以供PetaLinux使用：
   1. 點擊 **File** > **Export** > **Export Hardware**.
 
@@ -194,9 +201,11 @@ cp prebuilts/design_1_wrapper.hdf hsi
 
 ## 在Petalinux下，產生Linux Platform
 從Viviado&reg; Design Suite　export出的硬體定義文件(`.hdf`)，就可以開始Petalinux設計流程了。此時，你應該已經把`.hdf`export到`<PROJ ROOT>/hsi`目錄了
+
 **Tip:** 為了加快輸入速度，我以將相關命令列指令放在`<PROJ ROOT>/files/commands.txt`，你可以是用複製和貼上，一步一步的執行。
 
 ###　Step 1: 建立一個PetaLinux的Project
+
 利用以下命令創建一個Petalinux的project，從Zynq&reg; UltraScale+樣板開始,並不是使用一個以存在的BSP，並且專案檔名為petalinux
 ```
 source /opt/xilinx/petalinux/2018.2/settings.sh
@@ -204,64 +213,76 @@ cd  <PROJ ROOT>
 petalinux-create -t project -n petalinux --template zynqMP
 cd petalinux
 ```
+
 ###　Step 2: 複製Yocto recipes到PetaLinux的專案
+
 這個步驟,主要是將Yocto recipes加入到客製化的Kernel中以及加入dnndk相關檔案。
 
-**Note:** 在執行以下命令前，確認是否位於 `<PROJ ROOT>/petalinux`的目錄中。
+**注意:** 在執行以下命令前，確認是否位於 `<PROJ ROOT>/petalinux`的目錄中。
 
 1.加入DPU utilities, libraries, and header files到root file system.
+
 ```
 cp -rp ../files/recipes-apps/dnndk/ project-spec/meta-user/recipes-apps/
 ```
+
 2. 加入DPU driver kernel module.
+
 ```
 cp -rp ../files/recipes-modules project-spec/meta-user
 ```
+
 3. 加入一個Linux啟動時可自動運行的scripts.
+
 ```
 cp -rp ../files/recipes-apps/autostart project-spec/meta-user/recipes-apps/
 ```
+
 4. 加入一個“ bbappend”，以便執行各種操作，例如自動插入DPU　Driver，自動掛載SD卡，修改PATH等
+
 ```
 cp -rp ../files/recipes-core/base-files/ project-spec/meta-user/recipes-core/
 ```
 
 ## Step 3: 將PetaLinux配置為安裝dnndk文件
 
-  ```
-  vi project-spec/meta-user/recipes-core/images/petalinux-image-full.bbappend
-  ```
+編輯/petalinux-image-full.bbappend檔案
+
+```
+vi project-spec/meta-user/recipes-core/images/petalinux-image-full.bbappend
+```
 
   加入以下這三行到petalinux-image-full.bbappend:
 
-  ```
-    IMAGE_INSTALL_append = " dnndk"
-    IMAGE_INSTALL_append = " autostart"
-    IMAGE_INSTALL_append = " dpu"
-  ```
+```
+IMAGE_INSTALL_append = " dnndk"
+IMAGE_INSTALL_append = " autostart"
+IMAGE_INSTALL_append = " dpu"
+```
 
 ## Step 3: 將PetaLinux指向從Vivado Design Suite導出的`.hdf`文件
+
 1. 使用以下命令打開PetaLinux項目配置的GUI:
 
-  ```
-  petalinux-config --get-hw-description=../hsi
-  ```
+```
+petalinux-config --get-hw-description=../hsi
+```
 
 2. 將 serial port設成`psu_uart_1`.
 
-  ```
-  Subsystem AUTO Hardware Settings->Serial Settings->Primary stdin/stdout = psu_uart1
-  ```
+```
+Subsystem AUTO Hardware Settings->Serial Settings->Primary stdin/stdout = psu_uart1
+```
 
-  **Note:** Ultra96 board的UART連接到USB JTAG/UART板子為`psu_uart_1`.
+  **注意:** Ultra96 v2 board的UART連接到USB JTAG/UART板子為`psu_uart_1`.
 
   ![Subsystem AUTO Hardware Settings](/assets/posts/2019-10-10/plnx_hw_settings.png "Subsystem AUTO Hardware Settings")
 
 3. 選擇 **Ultra96 Machine**.
 
-     ```
-     DTG Settings -> MACHINE_NAME = zcu100-revc
-     ```
+```
+DTG Settings -> MACHINE_NAME = zcu100-revc
+```
 
      **Note:** Ultra96原來叫名為zcu100.
 
@@ -277,9 +298,9 @@ cp -rp ../files/recipes-core/base-files/ project-spec/meta-user/recipes-core/
 
 使用以下命令打開PetaLinux rootfs配置的GUI.
 
-  ```
-  petalinux-config -c rootfs
-  ```
+```
+petalinux-config -c rootfs
+```
 
 1. Enable 以下列出的項目:
 
@@ -327,6 +348,7 @@ petalinux 2019.1 device-tree generator還位支持DPU。因此，我們需要根
 ![DPU Integration](/assets/posts/2019-10-10/dpu-device-tree.png "DPU Integration")
 
 #### Interrupt數值
+
 | PS Interface    |  GIC IRQ#  |  Linux IRQ  |
 |-----------------|:----------:|:-----------:|
 | PL_PS_IRQ1[7:0] |  143:136   |   111:104   |
@@ -356,18 +378,18 @@ Interrupt的三種定義如下：
 
 ## Step 8: 產生kernel和root file system
 
-  ```
-  petalinux-build
-  ```
+```
+petalinux-build
+```
 
 ## Step 9: 建立boot image
 
-  ```
-  cd images/linux
+```
+cd images/linux
 
-  petalinux-package --boot --fsbl zynqmp_fsbl.elf --u-boot u-boot.elf /
-  --pmufw pmufw.elf --fpga system.bit --force
-  ```
+petalinux-package --boot --fsbl zynqmp_fsbl.elf --u-boot u-boot.elf /
+--pmufw pmufw.elf --fpga system.bit --force
+```
 
 ## Step 10: 產生sysroot
 在XSDK中編譯一個應用程式，需要指定sysroot來針對root file system中，所使用的一些軟件包所提供的libraries/header來產生執行檔
@@ -377,25 +399,25 @@ Interrupt的三種定義如下：
 這個pre-built SDK從[這裡](http://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_1/ug1350-design-files_v2.zip)下載後，解壓縮然後複製`sdk.sh`到`../files`
 
 使用以下命令安裝pre-built sdk
-  ```
-  cd <PROJ ROOT>/petalinux
-  petalinux-package --sysroot -s  ../files/sdk.sh
-  ```
+```
+cd <PROJ ROOT>/petalinux
+petalinux-package --sysroot -s  ../files/sdk.sh
+```
 
 #### 重新建立SDK
 如果想要完成整個過程以重新建立SDK，請使用以下步驟：
 
 1. 執行以下命令以創建 Yocto SDK以及複製到`<PROJ ROOT>/petalinux/images/linux/sdk.sh`:
 
-  ```
-  petalinux-build --sdk
-  ```
+```
+petalinux-build --sdk
+```
 
 2. 執行以下命令解壓縮以及安裝所產生的SDK跟sysroot到指定的目錄:
 
-  ```
-  petalinux-package --sysroot -d <directory>
-  ```
+```
+petalinux-package --sysroot -d <directory>
+```
 **Note:** 如果你沒有指定目錄(`-d`), 預設會將SDK安裝在`images/linux/sdk`
 
 ![SDK](/assets/posts/2019-10-10/sdk-sysroot.png "SDK")
@@ -452,7 +474,7 @@ xsdk
 
   **Note:** 這個models是事先使用使用DNNDK編譯好的,並放在`<PROJ ROOT>/files/resnet50/B1152_1.4.0`,你可以直接使用.
 
-![New Application](/assets/posts/2019-10-10/renset50_src.png "New Application")
+![New Application](/assets/posts/2019-10-10/resnet50_src.png "New Application")
 
 
 ## Step 4: 更新 Application Build Settings
@@ -463,9 +485,9 @@ xsdk
 
 2. 在 **C/C++ Build** -> **Environment**, 加入SYSROOT變數以及指向sysroot的位置. 比如上面我產生出的sysroot路徑:
 
-    ```
-    ${workspace_loc}/../petalinux/images/linux/sdk/sysroots/aarch64-xilinx-linux
-    ```
+ ```
+ ${workspace_loc}/../petalinux/images/linux/sdk/sysroots/aarch64-xilinx-linux
+ ```
 
   ![Environment Variables](/assets/posts/2019-10-10/sysroot_env.png "Environment Variables")  
 
@@ -481,15 +503,10 @@ xsdk
         ![Other Flags](/assets/posts/2019-10-10/g_compiler_sysroot.png "Other Flags")
 4. 在 g++ linker libraries tab, 加入以下 libraries:
     - n2cube
-
     - dputils
-
     - pthread
-
     - opencv_core
-
     - opencv_imgcodecs
-
     - opencv_highgui
 
       ![Linker libraries](/assets/posts/2019-10-10/g_linker_lib.png "Linker libraries")
@@ -497,13 +514,11 @@ xsdk
 5. 在 **g++ linker** -> **Miscellaneous**, 加入 model `.elfs` 到 **Other Objects**.
 
 6. 從 `resnet50/src directory` 加入 `dpu_resnet50_0.elf`
- **Note:** 您可以點擊**Workspace**以瀏覽至所需的對象，如下圖所示:
+ **注意:** 您可以點擊**Workspace**以瀏覽至所需的對象，如下圖所示:
 
   ![File Selection](/assets/posts/2019-10-10/object_select.png "File Selection")
 
   ![Other Objects](/assets/posts/2019-10-10/fd_other_object.png "Other Objects")
-
-    **Note:** This will cause the `.elfs` to be statically linked to the application. It is also possible to dynamically link these objects at runtime(not covered in this guide).
 
 7. 點擊 **OK**.
 8. 在 **resnet50** application下按滑鼠右鍵，然後選擇 **Build Project**.
@@ -551,19 +566,12 @@ xsdk
 依照以下步驟，設定Ultra96 v2:
 
 1. 連接上 12V power supply.
-
 2. 連接上 AES-ACC-USB-JTAG board.
-
 3. 連接上 Camera 子卡到Ultra96 v2 (選項)
-
 4. 將 microUSB cable 連接到 AES-ACC-USB-JTAG 和 PC.
-
 5. 將第二條microUSB　cable從Ultra96 v2 USB3.0 connector連接到PC以進行連網
-
 6. 使用miniDiSplay cable 連接Ultra96 v2和DisplayPort Monitor (選項)
-
 7. 連接一個 USB webcam 到其中一個 host USB ports (選項)
-
 8. 準備一個MicroSD card,並partition成FAT32
 
       ![Ultra96](/assets/posts/2019-10-10/u96v2_settings.png "Ultra96")
@@ -576,21 +584,18 @@ xsdk
 執行下列步驟，複製檔案至SD card:
 
 1. 複製 `<PROJ ROOT>/petalinux/images/linux/image.ub` 及 `BOOT.BIN` 到 `sdcard` 目錄下.
-
 2. 複製 `<PROJ_ROOT>/sdk_workspace/resnet50/Debug/resnet50.elf` 到 `sdcard/resnet50` 目錄下.
-
 3. 複製 `<PROJ_ROOT>/sdk_workspace/face_detection/Debug/face_detection.elf` 到 `sdcard/face_detection` 目錄下.
-
 
    你可以用複製和貼上執行以下命令: 
 
- ```
-  cd <PROJ ROOT>
-  cp petalinux/images/linux/image.ub sdcard
-  cp petalinux/images/linux/BOOT.BIN sdcard
-  cp sdk_workspace/resnet50/Debug/resnet50.elf sdcard/resnet50/
-  cp sdk_workspace/face_detection/Debug/face_detection.elf  sdcard/face_detection/`
- ```
+```
+cd <PROJ ROOT>
+cp petalinux/images/linux/image.ub sdcard
+cp petalinux/images/linux/BOOT.BIN sdcard
+cp sdk_workspace/resnet50/Debug/resnet50.elf sdcard/resnet50/
+cp sdk_workspace/face_detection/Debug/face_detection.elf  sdcard/face_detection/`
+```
 
 4. 在Host PC上將 `sdcard` 目錄上所有的檔案複製到microSD card.
 
@@ -599,7 +604,6 @@ xsdk
 
 - username = **root**
 - password = **root**
-
 
 ## Step 3: 初始化顯示畫面
 
