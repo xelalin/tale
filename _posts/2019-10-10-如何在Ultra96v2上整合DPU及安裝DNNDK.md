@@ -12,21 +12,21 @@ author: Alex Lin
 
 ### 軟體工具　
 
-.Vivado&reg; Design suite 2019.1
-.以安裝好Ultra96 v2的Board files [安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf)
-.Xilinx SDK 2019.1
-.Petalinux 2019.1
+. Vivado&reg; Design suite 2019.1
+. 以安裝好Ultra96 v2的Board files [安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf)
+. Xilinx SDK 2019.1
+. Petalinux 2019.1
 
 ### 硬體工具　
 
-.Ultra96 v2 board
-.12V@4A 電源供應器
-.MicroUSB to USB-A cable
-.AES-ACC-USB-JTAG board
-.SD card(FAT32格式)
-.DisplayPort 螢幕(選項)
-.Mini-DisplayPort to DisplayPort cable(選項)
-.USB Webcam(選項)
+. Ultra96 v2 board
+. 12V@4A 電源供應器
+. MicroUSB to USB-A cable
+. AES-ACC-USB-JTAG board
+. SD card(FAT32格式)
+. DisplayPort 螢幕(選項)
+. Mini-DisplayPort to DisplayPort cable(選項)
+. USB Webcam(選項)
 
 首先從我的[Github](https://github.com/xelalin/Ultra96v2-DPU)下載本地，如下所示
 
@@ -37,12 +37,12 @@ git clone https://github.com/xelalin/Ultra96v2-DPU.git
 ![figure](/assets/posts/2019-10-10/Ultra96v2_DPU.png)
 
 目錄說明：
-.files: petalinux/Yocto recipes, and source code for SDK, etc. 
-.hsi: 存放Vivado Design Suite export出的HDF檔案，給Petalinux使用
-.prebuilts: 存放pre-build的`.hdf`，`BOOT.BIN`，`image.ub`以及application的`.elf`
-.sdk_workspace: 空目錄用來來指定SDK的workspace
-.vivado: Vivado Design suite工作目錄，內含`u96_dpuv2.0_2018.2.tcl`用來產生Vivado Block Design
-.sdcard: 用來存放SD Image,但因超過Github的限制，所以是空的
+. files: petalinux/Yocto recipes, and source code for SDK, etc. 
+. hsi: 存放Vivado Design Suite export出的HDF檔案，給Petalinux使用
+. prebuilts: 存放pre-build的`.hdf`，`BOOT.BIN`，`image.ub`以及application的`.elf`
+. sdk_workspace: 空目錄用來來指定SDK的workspace
+. vivado: Vivado Design suite工作目錄，內含`u96_dpuv2.0_2018.2.tcl`用來產生Vivado Block Design
+. sdcard: 用來存放SD Image,但因超過Github的限制，所以是空的
 
 另外從Xilinx官網下載DPU TRD並且解壓縮，如下
 
