@@ -13,7 +13,7 @@ author: Alex Lin
 ### 軟體工具　
 
 - Vivado&reg; Design suite 2019.1
-- 以安裝好Ultra96 v2的Board files [安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf)
+- 已安裝好Ultra96 v2的Board files ([安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf))
 - Xilinx SDK 2019.1
 - Petalinux 2019.1
 
@@ -44,11 +44,11 @@ git clone https://github.com/xelalin/Ultra96v2-DPU.git
 - vivado: Vivado Design suite工作目錄，內含`u96_dpuv2.0_2018.2.tcl`用來產生Vivado Block Design
 - sdcard: 用來存放SD Image,但因超過Github的限制，所以是空的
 
-另外從Xilinx官網下載DPU TRD並且解壓縮，如下
+另外從Xilinx官網下載DPU TRD並且解壓縮後的目錄結構，如下
 
 ![figure](/assets/posts/2019-10-10/DPU_TRD.png)
 
-透過TRD BSP建立一個petalinux project得到相關的Yocto recipes,以立後續的開發流程
+透過TRD BSP建立一個petalinux project得到相關的Yocto recipes,以利後續的開發流程
 
 ```
 source /opt/pkg/petalinux/2019.1/settings.sh
@@ -60,14 +60,13 @@ tree dpu_bsp/ -L 3
 ![figure](/assets/posts/2019-10-10/dpu_bsp.png)
 
 
-將以下相對應的檔案及目錄，複製到Ultra96-DPU目錄下
+將以下相對應的檔案及目錄，複製到Ultra96v2-DPU目錄下
 
-DPU IP
 ```
 cp -rp ./zcu102-dpu-trd-2019-1-timer/pl/srcs/dpu_ip/dpu ./Ultra96v2-DPU/ip_repo/
 ```
 
-將Yocto相對應recipes複製到files
+將Yocto相對應recipes複製到files目錄下:
 
 ```
 cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-apps/ Ultra96v2-DPU/files/
@@ -85,9 +84,9 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
 從上圖得知，完成佈署一個深度網路神經系統包含以下四個開發步驟：
 - Vivado Design Suite: 透過Vivado IPI整合DPU IP到FPGA上
-- PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及ulitize 
-- Xilinx SDK: 編譯初一個Linux環境的可執行檔.elf
-- Xilinx DNNDK: 將caffe或是Tensorflow的模型，編譯成DPU的可執行檔.elf
+- PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及ulitize
+- Xilinx DNNDK: 將caffe或是Tensorflow的模型，編譯成DPU的可執行檔.elf 
+- Xilinx SDK: 編譯出一個Linux環境的可執行檔.elf
 
 ### Vivado Design Suite的步驟
 1. 建立一個Ultra96 v2 board的new project
@@ -107,20 +106,19 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 7. build project
 8. Create a boot image
 
+### Xilinx DNND
+下圖為DNNDK的開發流程圖，此文直接使用已經經過`dnnc` compiler出的`.elf`　files，筆者將在另一篇文章詳細說明，如何從以訓練好的模型透過DNNDK產生可佈署的`.elf`檔
+![DNNDK Design Flow](/assets/posts/2019-10-10/dnndk_design_flow.png "DNNDK Design Flow")
+
 ### Xilinx SDK
 1. 建立resent50和face detection的application
 2. Import由`dnnc`所產生出的`.elfs`
 3. 更新sysroot上application的選項，包含必要的librries. etc
-4. Build resnet50和face detection的application
-
-### Xilinx DNND
-下圖為DNNDK的開發流程圖，此文直接使用`dnnc` compiler出的`.elf`　files，將在另一篇文章詳細說明，如何從以訓練好的模型透過DNNDK產生可部屬的`.elf`檔
-![DNNDK Design Flow](/assets/posts/2019-10-10/dnndk_design_flow.png "DNNDK Design Flow")
-
+4. 產生 resnet50和face detection的應用程式
 
 ## 在Vivado Design suite上建立一個硬體平台
 
-###　Step 1: 在Vivado&reg; Design Suite建立一個新的Project
+# Step 1: 在Vivado&reg; Design Suite建立一個新的Project
 
 1. 呼叫Vivado
 
@@ -128,6 +126,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 cd <PROJ ROOT>/vivado/
 vivado
 ```
+
 2. 利用Ultra96 v2 board files建立新project
 
      - Project Name: **project_1**
