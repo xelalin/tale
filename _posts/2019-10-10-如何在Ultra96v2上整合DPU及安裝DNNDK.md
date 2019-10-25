@@ -91,7 +91,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 ### Vivado Design Suite的步驟
 1. 建立一個Ultra96 v2 board的new project
 2. 加入DPU IP到此Project中
-3. 在IP Integratir中，使用.tcl script建立Block Design
+3. 在IP Integrator中，使用`.tcl script`建立Block Design
 4. 解釋DPU的配置及連接
 5. 產生bitstream
 6. Export一個`.hdf` file
@@ -102,24 +102,23 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 3. Import `.hdf`
 4. 在Petalinux中配置Ultra96 v2 規格硬體
 5. 在root filesystem中加入必要的packages
-6. 在device-tree中加入DPU
+6. 在device-tree中加入DPU的配置
 7. build project
 8. Create a boot image
 
-### Xilinx DNND
-下圖為DNNDK的開發流程圖，此文直接使用已經經過`dnnc` compiler出的`.elf`　files，筆者將在另一篇文章詳細說明，如何從以訓練好的模型透過DNNDK產生可佈署的`.elf`檔
+### Xilinx DNNDK
+下圖為DNNDK的開發流程圖，此文直接使用已經經過`dnnc` compiler出的`.elf` files，筆者將在另一篇文章詳細說明，如何從以訓練好的模型透過DNNDK產生DPU可執行的`.elf`檔，如以下圖是所示:
 ![DNNDK Design Flow](/assets/posts/2019-10-10/dnndk_design_flow.png "DNNDK Design Flow")
 
 ### Xilinx SDK
-1. 建立resent50和face detection的application
+1. 建立resent50和face detection的應用程式
 2. Import由`dnnc`所產生出的`.elfs`
-3. 更新sysroot上application的選項，包含必要的librries. etc
+3. 更新sysroot上application的選項，包含必要的librries...etc
 4. 產生 resnet50和face detection的應用程式
 
 ## 在Vivado Design suite上建立一個硬體平台
 
 ### Step 1: 在Vivado&reg; Design Suite建立一個新的Project
-
 1. 呼叫Vivado
 
 ```
@@ -135,18 +134,18 @@ vivado
      - Select **Ultra96v2 Evaluation Platform**
 
       **注意:** 如在Boards tab中選不到**Ultra96v2 Evaluation Platform**，那麼請先參考[Installing Board Definition for Ultra96v2](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf) 先將Board files安裝好
-      
+  
 ![Board Files](/assets/posts/2019-10-10/u96_board_files.png "Board Files")
 
 3. Click **Finish**.
 
 ### Step 2: 加入DPU IP repository
 
-1. 在Project Manager點擊 **IP Catalog**
+1. 在Project Manager點擊**IP Catalog**
 
 2. 在**Vivado Repository**典籍滑鼠右鍵然後選擇**Add Repository**.
 
-3. 瀏覽目錄點選到 **<PROJ ROOT>/ip_repo**
+3. 瀏覽目錄點選到**<PROJ ROOT>/ip_repo**
 
 ![IP Catalog](/assets/posts/2019-10-10/dpu_ip_repos_1.png "IP Catalog")
 
@@ -216,7 +215,7 @@ cd petalinux
 
 **注意:** 在執行以下命令前，確認是否位於 `<PROJ ROOT>/petalinux`的目錄中。
 
-1.加入DPU utilities, libraries, and header files到root file system.
+1. 加入DPU utilities, libraries, and header files到root file system.
 
 ```
 cp -rp ../files/recipes-apps/dnndk/ project-spec/meta-user/recipes-apps/
