@@ -124,18 +124,15 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
 1. 呼叫Vivado
 
-  ```
-  cd <PROJ ROOT>/vivado/
-  vivado
-  ```
+```
+cd <PROJ ROOT>/vivado/
+vivado
+```
 2. 利用Ultra96 v2 board files建立新project
 
      - Project Name: **project_1**
-
      - Project Location: `<PROJ ROOT>/vivado`
-
      - Do not specify sources
-
      - Select **Ultra96v2 Evaluation Platform**
 
       **注意:** 如在Boards tab中選不到**Ultra96v2 Evaluation Platform**，那麼請先參考[Installing Board Definition for Ultra96v2](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf) 先將Board files安裝好
