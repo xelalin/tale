@@ -118,7 +118,7 @@ cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-module
 
 ## 在Vivado Design suite上建立一個硬體平台
 
-# Step 1: 在Vivado&reg; Design Suite建立一個新的Project
+### Step 1: 在Vivado&reg; Design Suite建立一個新的Project
 
 1. 呼叫Vivado
 
@@ -140,11 +140,11 @@ vivado
 
 3. Click **Finish**.
 
-###　Step 2: 加入DPU IP repository
+### Step 2: 加入DPU IP repository
 
 1. 在Project Manager點擊 **IP Catalog**
 
-2.在**Vivado Repository**典籍滑鼠右鍵然後選擇**Add Repository**.
+2. 在**Vivado Repository**典籍滑鼠右鍵然後選擇**Add Repository**.
 
 3. 瀏覽目錄點選到 **<PROJ ROOT>/ip_repo**
 
@@ -182,7 +182,7 @@ cp prebuilts/design_1_wrapper.hdf hsi
 ![ Generate Bitstream](/assets/posts/2019-10-10/generate_bitstream.png "Generate Bitstream")
 2. 接受預設選項
 
-### Step 5: Export Hardward
+### Step 6: Export Hardward
 
   當Bitstream成功的生成後，請執行以下步驟來export `.hdf`以供PetaLinux使用：
   1. 點擊 **File** > **Export** > **Export Hardware**.
@@ -200,7 +200,7 @@ cp prebuilts/design_1_wrapper.hdf hsi
 
 **Tip:** 為了加快輸入速度，我以將相關命令列指令放在`<PROJ ROOT>/files/commands.txt`，你可以是用複製和貼上，一步一步的執行。
 
-###　Step 1: 建立一個PetaLinux的Project
+### Step 1: 建立一個PetaLinux的Project
 
 利用以下命令創建一個Petalinux的project，從Zynq&reg; UltraScale+樣板開始,並不是使用一個以存在的BSP，並且專案檔名為petalinux
 ```
@@ -210,7 +210,7 @@ petalinux-create -t project -n petalinux --template zynqMP
 cd petalinux
 ```
 
-###　Step 2: 複製Yocto recipes到PetaLinux的專案
+### Step 2: 複製Yocto recipes到PetaLinux的專案
 
 這個步驟,主要是將Yocto recipes加入到客製化的Kernel中以及加入dnndk相關檔案。
 
