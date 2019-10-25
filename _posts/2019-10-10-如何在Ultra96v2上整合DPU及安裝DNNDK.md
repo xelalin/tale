@@ -269,7 +269,7 @@ petalinux-config --get-hw-description=../hsi
 Subsystem AUTO Hardware Settings->Serial Settings->Primary stdin/stdout = psu_uart1
 ```
 
-  **注意:** Ultra96 v2 board的UART連接到USB JTAG/UART板子為`psu_uart_1`.
+**注意:** Ultra96 v2 board的UART連接到USB JTAG/UART板子為`psu_uart_1`.
 
   ![Subsystem AUTO Hardware Settings](/assets/posts/2019-10-10/plnx_hw_settings.png "Subsystem AUTO Hardware Settings")
 
@@ -279,13 +279,10 @@ Subsystem AUTO Hardware Settings->Serial Settings->Primary stdin/stdout = psu_ua
 DTG Settings -> MACHINE_NAME = zcu100-revc
 ```
 
-     **Note:** Ultra96原來叫名為zcu100.
-
-      **Tip:** 使用倒退鍵刪除預設文字, 然後再加入**zcu100-revc**.
-
-      這樣.系統就會使用Ultra96指定的device-tree檔案.
-
-      ![DTG Settings](/assets/posts/2019-10-10/DTG_settings.png "DTG Settings")
+**注意:** Ultra96原來叫名為zcu100.
+**Tip:** 使用倒退鍵刪除預設文字, 然後再加入**zcu100-revc**.
+這樣.系統就會使用Ultra96指定的device-tree檔案.
+![DTG Settings](/assets/posts/2019-10-10/DTG_settings.png "DTG Settings")
 
 4. 跳出及儲存.這個步驟會需要一點時間建立.
 
