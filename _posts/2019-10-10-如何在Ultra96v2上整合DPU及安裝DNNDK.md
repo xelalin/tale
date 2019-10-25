@@ -13,7 +13,7 @@ author: Alex Lin
 ### 軟體工具　
 
 .Vivado&reg; Design suite 2019.1
-.以安裝好Ultra96 v2的Board files [安裝說明]（https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf）
+.以安裝好Ultra96 v2的Board files [安裝說明](https://www.element14.com/community/servlet/JiveServlet/downloadBody/92692-102-1-381948/Installing-Board-Definition-Files_v1_0_0.pdf)
 .Xilinx SDK 2019.1
 .Petalinux 2019.1
 
@@ -30,9 +30,10 @@ author: Alex Lin
 
 首先從我的[Github](https://github.com/xelalin/Ultra96v2-DPU)下載本地，如下所示
 
-'''
+```
 git clone https://github.com/xelalin/Ultra96v2-DPU.git
-'''
+```
+
 ![figure](/assets/posts/2019-10-10/Ultra96v2_DPU.png)
 
 目錄說明：
@@ -49,12 +50,12 @@ git clone https://github.com/xelalin/Ultra96v2-DPU.git
 
 透過TRD BSP建立一個petalinux project得到相關的Yocto recipes,以立後續的開發流程
 
-'''
+```
 source /opt/pkg/petalinux/2019.1/settings.sh
 cd zcu102-dpu-trd-2019-1-timer
 petalinux-create -t project -n dpu_bsp -s ./apu/dpu_petalinux_bsp/xilinx-dpu-trd-zcu102-v2019.1.bsp
 tree dpu_bsp/ -L 3
-'''
+```
 
 ![figure](/assets/posts/2019-10-10/dpu_bsp.png)
 
@@ -62,24 +63,26 @@ tree dpu_bsp/ -L 3
 將以下相對應的檔案及目錄，複製到Ultra96-DPU目錄下
 
 DPU IP
-'''
+```
 cp -rp ./zcu102-dpu-trd-2019-1-timer/pl/srcs/dpu_ip/dpu ./Ultra96v2-DPU/ip_repo/
-'''
+```
 
 將Yocto相對應recipes複製到files
 
-'''
+```
 cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-apps/ Ultra96v2-DPU/files/
 cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-core/ Ultra96v2-DPU/files/
 cp -rp zcu102-dpu-trd-2019-1-timer/dpu_bsp/project-spec/meta-user/recipes-modules/ Ultra96v2-DPU/files/
-'''
+```
 
 完成後，目錄結構如下：
 ![figure](/assets/posts/2019-10-10/Ultra96v2_DPU_TRD.png)
 
 ## Projectg說明
+
 簡單用一張圖示說明設計流程：
 ![Design Flow](/assets/posts/2019-10-10/design_flow.png "Design Flow")
+
 從上圖得知，完成佈署一個深度網路神經系統包含以下四個開發步驟：
 . Vivado Design Suite: 透過Vivado IPI整合DPU IP到FPGA上
 . PetaLinux: 建立一個Linux得執行環境，並且整合DPU的driver，runtime以及ulitize 
